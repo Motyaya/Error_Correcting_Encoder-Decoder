@@ -5,23 +5,28 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-    private static byte[] bytes;
 
     public static void main(String[] args) throws IOException {
-        byte[] byteArr = readBytesFromFile("send.txt");
-        System.out.println(new String(byteArr));
-        byte[] hamArr = hamItUp(byteArr);
-        System.out.println(new String(hamArr));
-        writeToFileBytes(hamArr, "encoded.txt");
-
-        send("encoded.txt", "received.txt");
-
-        byte[] recArr = readBytesFromFile("received.txt");
-        System.out.println(new String(recArr));
-
-        byte[] finArr = hamItDown(recArr);
-        System.out.println(new String(finArr));
-        writeToFileBytes(finArr, "decoded.txt");
+        Scanner scanner = new Scanner(System.in);
+        String choose = scanner.next();
+        switch (choose){
+            case "encode":{
+                byte[] byteArr = readBytesFromFile("send.txt");
+                byte[] hamArr = hamItUp(byteArr);
+                writeToFileBytes(hamArr, "encoded.txt");
+                break;
+            }
+            case "send":{
+                send("encoded.txt", "received.txt");
+                break;
+            }
+            case "decode" :{
+                byte[] recArr = readBytesFromFile("received.txt");
+                byte[] finArr = hamItDown(recArr);
+                writeToFileBytes(finArr, "decoded.txt");
+                break;
+            }
+        }
     }
 
     public static byte[] readBytesFromFile(String fileName) {
